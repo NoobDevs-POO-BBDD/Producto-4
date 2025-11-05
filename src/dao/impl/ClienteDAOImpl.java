@@ -14,22 +14,24 @@ public class ClienteDAOImpl implements ClienteDAO {
 
     @Override
     public Cliente getClientePorEmail(String email) throws SQLException {
-
         try (Connection con = ConexionBD.getConnection();
              PreparedStatement ps = con.prepareCall("{CALL sp_getClienteByEmail(?)}")) {
+
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
+
             if (rs.next()) {
                 // Leemos el tipo (ENUM: 'ESTANDAR' o 'PREMIUM')
                 String tipo = rs.getString("tipo");
+
                 if ("PREMIUM".equalsIgnoreCase(tipo)) {
                     return new ClientePremium(
                             rs.getString("email"),
                             rs.getString("nombre"),
                             rs.getString("domicilio"),
                             rs.getString("nif"),
-                            ClientePremium.DESCUENTO_ENVIO_PREMIUM,
-                            ClientePremium.CUOTA_ANUAL_PREMIUM
+                            rs.getDouble("descuento_envio"),
+                            rs.getInt("cuota_anual")
                     );
                 } else {
                     return new ClienteStandar(
@@ -37,18 +39,20 @@ public class ClienteDAOImpl implements ClienteDAO {
                             rs.getString("nombre"),
                             rs.getString("domicilio"),
                             rs.getString("nif"),
-                            ClienteStandar.DESCUENTO_ENVIO_STANDAR
+                            rs.getDouble("descuento_envio")
                     );
                 }
             }
-            // 7. Si no se encontró nada
+
+            // Si no se encontró nada
             System.out.println("No hay ningún cliente registrado con este email");
             return null;
+
         } catch (Exception e) {
-            // 8. Capturamos cualquier excepción
-            throw e;
+            throw e; // repropagamos el error
         }
     }
+
 
     @Override
     public List<Cliente> getTodosLosClientes() throws SQLException {
