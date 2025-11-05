@@ -340,7 +340,7 @@ BEGIN
         SET MESSAGE_TEXT = 'No se puede eliminar un pedido ya enviado';
     END IF;
     
-    IF TIMESTAMPDIFF(MINUTE, v_fecha_hora, NOW()) > v_tiempo_preparacion THEN
+    IF TIMESTAMPDIFF(MINUTE, v_fecha_hora, NOW()) >= v_tiempo_preparacion THEN
         SIGNAL SQLSTATE '45000' 
         SET MESSAGE_TEXT = 'El pedido no puede ser cancelado, ha superado el tiempo de preparación';
     END IF;

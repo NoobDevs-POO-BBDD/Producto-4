@@ -46,5 +46,15 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="mysql-connector-j-8.0.33" level="project" />
+    <orderEntry type="library" name="java-dotenv-3.1.5" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/java-dotenv-3.1.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

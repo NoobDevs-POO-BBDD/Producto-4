@@ -198,22 +198,22 @@ public class TiendaOnline {
         anadirArticulo("A005", "Silla Ergonómica Pro", 220.0, 30.0, 60);
 
         // Clientes
-        anadirCliente("ana.g@mail.com", "Ana García", "Calle Sol 1", "12345678A", false);
-        anadirCliente("luis.m@mail.com", "Luis Martínez", "Av. Luna 2", "23456789B", false);
-        anadirCliente("eva.p@mail.com", "Eva Pena", "Plaza Mar 3", "34567890C", false);
-        anadirCliente("carlos.r@mail.com", "Carlos Ruiz", "Calle Río 4", "45678901D", true);
-        anadirCliente("sofia.l@mail.com", "Sofia López", "Av. Monte 5", "56789012E", true);
+        anadirCliente("maria@mail.com", "Maria", "Calle Sol 1", "12345678A", false);
+        anadirCliente("thabata@mail.com", "Thabata", "Av. Luna 2", "23456789B", false);
+        anadirCliente("kevin@mail.com", "Kevin", "Plaza Mar 3", "34567890C", false);
+        anadirCliente("mar@mail.com", "Mar", "Calle Río 4", "45678901D", true);
+        anadirCliente("anna@mail.com", "Anna", "Av. Monte 5", "56789012E", true);
 
         // Pedidos
-        anadirPedido("P001", "ana.g@mail.com", "A002", 2);
-        anadirPedido("P002", "carlos.r@mail.com", "A003", 1);
-        anadirPedido("P003", "luis.m@mail.com", "A001", 1);
+        anadirPedido("P001", "maria@mail.com", "A002", 2);
+        anadirPedido("P002", "mar@mail.com", "A003", 1);
+        anadirPedido("P003", "thabata@mail.com", "A001", 1);
 
         // Pedidos enviados (creamos con DAO directamente para simular estado enviado)
-        Pedido p4 = new Pedido("P004", buscarClientePorEmail("sofia.l@mail.com"), buscarArticulo("A004"), 1, LocalDateTime.now().minusDays(2), true);
-        Pedido p5 = new Pedido("P005", buscarClientePorEmail("eva.p@mail.com"), buscarArticulo("A005"), 1, LocalDateTime.now().minusDays(3), true);
-        pedidoDAO.anadirPedido(p4);
-        pedidoDAO.anadirPedido(p5);
+        anadirPedido("P004","anna@mail.com","A004",1);
+        marcarPedidoComoEnviado("p004");
+        anadirPedido("P005","kevin@mail.com","A005",1);
+        marcarPedidoComoEnviado("P005");
 
         System.out.println("Datos de prueba cargados correctamente.");
     }
