@@ -34,10 +34,7 @@ public class MySqlDAOFactory implements DAOFactory {
     public PedidoDAO getPedidoDAO() {
         if (this.pedidoDAO == null) {
 
-            // ¡AQUÍ ESTÁ LA MAGIA!
-            // Cuando creas el PedidoDAO...
-            // ...le pasas los otros DAOs que la fábrica ya conoce.
-
+            // Cuando creas el PedidoDAO le pasas los otros DAOs que la fábrica ya conoce.
             this.pedidoDAO = new PedidosDAOImpl( getArticuloDAO(), getClienteDAO() );
         }
         return this.pedidoDAO;
