@@ -1,3 +1,4 @@
+
 package controller;
 
 import model.Articulo;
@@ -5,6 +6,8 @@ import model.Cliente;
 import model.Pedido;
 import model.TiendaOnline;
 import view.Vista;
+
+import java.sql.SQLException;
 import java.util.List;
 
 public class Controlador {
@@ -22,24 +25,39 @@ public class Controlador {
         try {
             modelo.anadirCliente(email, nombre, domicilio, nif,premium);
             vista.clienteAnadido();
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | SQLException e) {
             vista.mostrarError(e.getMessage());
+        } catch (Exception e) {
+            vista.mostrarError("Error inseperado: "+ e.getMessage());
         }
     }
 
-    public void solicitarMostrarClientes(){
-        List<Cliente> listaDeClientes = modelo.mostrarClientes();
-        vista.mostrarListaClientes(listaDeClientes);
+    public void solicitarMostrarClientes() throws Exception {
+        try{
+            List<Cliente> listaDeClientes = modelo.mostrarClientes();
+            vista.mostrarListaClientes(listaDeClientes);
+        }catch (Exception e) {
+            vista.mostrarError("Error inseperado: "+ e.getMessage());
+        }
+
     }
 
-    public void solicitarMostrarClientesEstandar(){
-        List<Cliente> listaDeClientesEstandar = modelo.mostrarClientesEstandar();
-        vista.mostarListaClientesEstandar(listaDeClientesEstandar);
+    public void solicitarMostrarClientesEstandar() throws Exception {
+        try {
+            List<Cliente> listaDeClientesEstandar = modelo.mostrarClientesEstandar();
+            vista.mostarListaClientesEstandar(listaDeClientesEstandar);
+        }catch (Exception e) {
+            vista.mostrarError("Error inseperado: "+ e.getMessage());
+        }
     }
 
-    public void solicitarMostrarClientesPremium(){
-        List<Cliente> listaDeClientesPremium = modelo.mostrarClientesPremium();
-        vista.mostrarListaClientesPremium(listaDeClientesPremium);
+    public void solicitarMostrarClientesPremium() throws Exception {
+        try{
+            List<Cliente> listaDeClientesPremium = modelo.mostrarClientesPremium();
+            vista.mostrarListaClientesPremium(listaDeClientesPremium);
+        }catch (Exception e) {
+            vista.mostrarError("Error inseperado: "+ e.getMessage());
+        }
     }
 
     //Gestión de artículos
@@ -48,24 +66,34 @@ public class Controlador {
         try {
             modelo.anadirArticulo(codigo,descripcion,precioVenta,gastosEnvio,tiempoPreparacion);
             vista.articuloAnadido();
-        } catch (IllegalArgumentException e) {
+        } catch (SQLException e){
             vista.mostrarError(e.getMessage());
+        }catch (Exception e) {
+            vista.mostrarError("Error inseperado: "+ e.getMessage());
         }
     }
 
-    public void solicitarMostrarArticulos(){
-        List<Articulo> listaArticulo = modelo.mostrarArticulos();
-        vista.mostrarListaArticulos(listaArticulo);
+    public void solicitarMostrarArticulos()throws Exception{
+        try{
+            List<Articulo> listaArticulo = modelo.mostrarArticulos();
+            vista.mostrarListaArticulos(listaArticulo);
+        }catch (Exception e) {
+            vista.mostrarError("Error inseperado: "+ e.getMessage());
+        }
     }
 
-    public void solicitarBuscarArticulo(String codigoBuscar) {
-        Articulo articuloBuscado = modelo.buscarArticulo(codigoBuscar);
-        vista.articuloBuscado(articuloBuscado);
+    public void solicitarBuscarArticulo(String codigoBuscar) throws Exception{
+        try {
+            Articulo articuloBuscado = modelo.buscarArticulo(codigoBuscar);
+            vista.articuloBuscado(articuloBuscado);
+        }catch (Exception e) {
+            vista.mostrarError("Error inseperado: "+ e.getMessage());
+        }
     }
 
     //Gestión de pedidos.
 
-    public void solicitarAnadirPedido(String numeroPedido,String cliente,String articulo,int cantidad){
+    public void solicitarAnadirPedido(String numeroPedido,String cliente,String articulo,int cantidad) throws Exception {
         try {
             modelo.anadirPedido(numeroPedido,cliente,articulo,cantidad);
             vista.pedidoAnadido();
@@ -84,44 +112,77 @@ public class Controlador {
             }else{
                 vista.mostrarError(e.getMessage());
             }
+        } catch (SQLException e){
+            vista.mostrarError(e.getMessage());
+        }catch (Exception e) {
+            vista.mostrarError("Error inseperado: "+ e.getMessage());
         }
     }
 
-    public void solicitarEliminarPedido(String numeroPedidoBorrar){
-        boolean verdadero = modelo.eliminarPedido(numeroPedidoBorrar);
-        if(verdadero){
-            List<Pedido> listaActualizada = modelo.mostrarPedidosPendientes();
-            vista.mostrarListaPedidosPendientes(listaActualizada);
-            vista.pedidoEliminado();
-        } else {
-            String message = "No se pudo eliminar el pedido " + numeroPedidoBorrar + ". Es posible que ya esté enviado o se ha eliminado con anterioridad.";
-            vista.mostrarError(message);
+    public void solicitarEliminarPedido(String numeroPedidoBorrar) throws Exception {
+        try{
+            boolean verdadero = modelo.eliminarPedido(numeroPedidoBorrar);
+            if(verdadero){
+                List<Pedido> listaActualizada = modelo.mostrarPedidosPendientes();
+                vista.mostrarListaPedidosPendientes(listaActualizada);
+                vista.pedidoEliminado();
+            } else {
+                String message = "No se pudo eliminar el pedido " + numeroPedidoBorrar + ". Es posible que ya esté enviado o se ha eliminado con anterioridad.";
+                vista.mostrarError(message);
+            }
+        } catch (SQLException e){
+            vista.mostrarError(e.getMessage());
+        }catch (Exception e) {
+            vista.mostrarError("Error inseperado: "+ e.getMessage());
+        }
+
+    }
+
+    public void solicitarMostrarPedidosPendientes() throws Exception {
+        try{
+            List<Pedido> pendientes = modelo.mostrarPedidosPendientes();
+            vista.mostrarListaPedidosPendientes(pendientes);
+        }catch (Exception e) {
+            vista.mostrarError("Error inseperado: "+ e.getMessage());
         }
     }
 
-    public void solicitarMostrarPedidosPendientes() {
-        List<Pedido> pendientes = modelo.mostrarPedidosPendientes();
-        vista.mostrarListaPedidosPendientes(pendientes);
+    public void solicitarMostrarPedidosPendientesEmail(String emailCliente) throws Exception {
+        try{
+            List<Pedido> pendientesEmail = modelo.mostrarPedidosPendientes(emailCliente);
+            vista.mostrarListaPedidosPendientes(pendientesEmail);
+        }catch (Exception e) {
+            vista.mostrarError("Error inseperado: "+ e.getMessage());
+        }
     }
 
-    public void solicitarMostrarPedidosPendientesEmail(String emailCliente){
-        List<Pedido> pendientesEmail = modelo.mostrarPedidosPendientes(emailCliente);
-        vista.mostrarListaPedidosPendientes(pendientesEmail);
+    public void solicitarMostrarPedidosEnviados() throws Exception {
+        try{
+            List<Pedido> enviados = modelo.mostrarPedidosEnviados();
+            vista.mostrarListaPedidosEnviados(enviados);
+        }catch (Exception e) {
+            vista.mostrarError("Error inseperado: "+ e.getMessage());
+        }
     }
-
-    public void solicitarMostrarPedidosEnviados() {
-        List<Pedido> enviados = modelo.mostrarPedidosEnviados();
-        vista.mostrarListaPedidosEnviados(enviados);
-    }
-    public void solicitarMostrarPedidosEnviadosEmail(String emailCliente){
-        List<Pedido> enviadosEmail = modelo.mostrarPedidosEnviados(emailCliente);
-        vista.mostrarListaPedidosEnviados(enviadosEmail);
+    public void solicitarMostrarPedidosEnviadosEmail(String emailCliente) throws Exception {
+        try{
+            List<Pedido> enviadosEmail = modelo.mostrarPedidosEnviados(emailCliente);
+            vista.mostrarListaPedidosEnviados(enviadosEmail);
+        }catch (Exception e) {
+            vista.mostrarError("Error inseperado: "+ e.getMessage());
+        }
     }
 
     /**
      * Se inicia la aplicación llamando a la función principal de vista
      */
-    public void iniciar(){
+    public void iniciar() throws Exception {
+
+        try{
+            modelo.cargarDatosDePrueba();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
         vista.menu();
     }
 
