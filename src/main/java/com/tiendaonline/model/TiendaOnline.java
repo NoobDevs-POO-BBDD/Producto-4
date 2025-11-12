@@ -1,6 +1,7 @@
 package com.tiendaonline.model;
 
 import com.tiendaonline.dao.factory.DAOFactory;
+import com.tiendaonline.dao.factory.JpaDAOFactory;
 import com.tiendaonline.dao.factory.MySqlDAOFactory;
 import com.tiendaonline.dao.interfaces.ArticuloDAO;
 import com.tiendaonline.dao.interfaces.ClienteDAO;
@@ -18,7 +19,7 @@ public class TiendaOnline {
     public TiendaOnline() {
 
         // 1. Instancia Mysql
-        this.factory = new MySqlDAOFactory();
+        this.factory = new JpaDAOFactory();
 
         //Usar DAOfactory
         this.articuloDAO = factory.getArticuloDAO();
