@@ -1,4 +1,4 @@
-package test.java.com.tiendaonline.test.onlinestore.tests;
+package com.tiendaonline.test.onlinestore.tests;
 
 import org.junit.jupiter.api.Test;
 import com.tiendaonline.model.ClienteStandar;

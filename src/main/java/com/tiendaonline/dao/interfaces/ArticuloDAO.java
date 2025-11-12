@@ -1,4 +1,4 @@
-package main.java.com.tiendaonline.dao.interfaces;
+package com.tiendaonline.dao.interfaces;
 
 import com.tiendaonline.model.Articulo;
 import java.util.List;

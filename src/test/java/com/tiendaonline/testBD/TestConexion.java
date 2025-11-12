@@ -1,4 +1,4 @@
-package test.java.com.tiendaonline.testBD;
+package com.tiendaonline.testBD;
 
 import com.tiendaonline.util.ConexionBD;
 

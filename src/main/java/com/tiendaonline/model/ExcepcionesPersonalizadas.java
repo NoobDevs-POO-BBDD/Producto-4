@@ -1,4 +1,4 @@
-package main.java.com.tiendaonline.model;
+package com.tiendaonline.model;
 
 /**
  * Excepciones personalizadas para la tienda online

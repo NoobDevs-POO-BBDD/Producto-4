@@ -1,4 +1,4 @@
-package main.java.com.tiendaonline.model;
+package com.tiendaonline.model;
 
 import com.tiendaonline.dao.factory.DAOFactory;
 import com.tiendaonline.dao.factory.MySqlDAOFactory;

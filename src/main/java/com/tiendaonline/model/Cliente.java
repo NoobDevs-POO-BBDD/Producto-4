@@ -1,4 +1,4 @@
-package main.java.com.tiendaonline.model;
+package com.tiendaonline.model;
 
 public abstract class Cliente {
     private String email;

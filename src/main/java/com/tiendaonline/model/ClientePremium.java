@@ -1,4 +1,4 @@
-package main.java.com.tiendaonline.model;
+package com.tiendaonline.model;
 
 public class ClientePremium extends Cliente {
     public static final double DESCUENTO_ENVIO_PREMIUM = 20.0;

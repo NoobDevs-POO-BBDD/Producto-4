@@ -1,5 +1,5 @@
 
-package main.java.com.tiendaonline.controller;
+package com.tiendaonline.controller;
 
 import com.tiendaonline.model.Articulo;
 import com.tiendaonline.model.Cliente;

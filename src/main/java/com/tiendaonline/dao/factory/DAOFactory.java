@@ -1,4 +1,4 @@
-package main.java.com.tiendaonline.dao.factory;
+package com.tiendaonline.dao.factory;
 
 import com.tiendaonline.dao.interfaces.ArticuloDAO;
 import com.tiendaonline.dao.interfaces.ClienteDAO;

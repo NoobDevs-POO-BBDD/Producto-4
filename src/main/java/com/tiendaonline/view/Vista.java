@@ -1,4 +1,4 @@
-package main.java.com.tiendaonline.view;
+package com.tiendaonline.view;
 
 import com.tiendaonline.controller.Controlador;
 import com.tiendaonline.model.Articulo;

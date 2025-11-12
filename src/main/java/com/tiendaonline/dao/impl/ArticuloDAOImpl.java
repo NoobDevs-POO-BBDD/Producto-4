@@ -1,4 +1,4 @@
-package main.java.com.tiendaonline.dao.impl;
+package com.tiendaonline.dao.impl;
 import com.tiendaonline.dao.interfaces.ArticuloDAO;
 import com.tiendaonline.model.Articulo;
 import com.tiendaonline.util.ConexionBD;

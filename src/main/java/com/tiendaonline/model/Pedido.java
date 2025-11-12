@@ -1,4 +1,8 @@
-package main.java.com.tiendaonline.model;
+package com.tiendaonline.model;
+
+import com.tiendaonline.model.Articulo;
+import com.tiendaonline.model.Cliente;
+import com.tiendaonline.model.ClientePremium;
 
 import java.time.LocalDateTime;
 

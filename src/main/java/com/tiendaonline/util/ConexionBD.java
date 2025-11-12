@@ -1,4 +1,4 @@
-package main.java.com.tiendaonline.util;
+package com.tiendaonline.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

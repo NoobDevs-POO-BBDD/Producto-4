@@ -1,4 +1,4 @@
-package test.java.com.tiendaonline.test.onlinestore.tests;
+package com.tiendaonline.test.onlinestore.tests;
 
 import com.tiendaonline.model.Pedido;
 import com.tiendaonline.model.TiendaOnline;

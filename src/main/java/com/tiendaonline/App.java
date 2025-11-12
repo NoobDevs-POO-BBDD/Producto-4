@@ -1,4 +1,4 @@
-package main.java.com.tiendaonline;
+package com.tiendaonline;
 
 import com.tiendaonline.model.TiendaOnline;
 import com.tiendaonline.view.Vista;

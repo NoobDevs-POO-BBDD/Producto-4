@@ -1,4 +1,4 @@
-package main.java.com.tiendaonline.model;
+package com.tiendaonline.model;
 
 public class Articulo {
     private String codigo;
