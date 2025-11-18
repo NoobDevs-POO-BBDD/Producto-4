@@ -5,12 +5,16 @@ import com.tiendaonline.model.Cliente;
 import com.tiendaonline.model.ClientePremium;
 import com.tiendaonline.model.ClienteStandar;
 import com.tiendaonline.util.ConexionBD;
+import jakarta.persistence.EntityManager;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClienteDAOImpl implements ClienteDAO {
+
+    public ClienteDAOImpl(EntityManager em) {
+    }
 
     @Override
     public Cliente getClientePorEmail(String email) throws SQLException {

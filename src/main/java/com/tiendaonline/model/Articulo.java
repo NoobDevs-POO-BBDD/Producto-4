@@ -1,18 +1,19 @@
 package com.tiendaonline.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.*; // Importamos JAKARTA
 
-@Entity
-@Table(name = "articulos") // Mapea esta clase a la tabla 'articulos'
+@Entity // 1. Marca la clase como una entidad
+@Table(name = "articulos") // 2. Mapea la clase a la tabla "articulos"
 public class Articulo {
 
-    @Id // Marca 'codigo' como la clave primaria
+    @Id // 3. Marca 'codigo' como la Clave Primaria
     @Column(name = "codigo")
     private String codigo;
 
     @Column(name = "descripcion")
     private String descripcion;
 
+    // 4. Mapea el campo 'precioVenta' a la columna 'precio_venta'
     @Column(name = "precio_venta")
     private double precioVenta;
 
@@ -22,18 +23,13 @@ public class Articulo {
     @Column(name = "tiempo_preparacion")
     private int tiempoPreparacion;
 
-
+    // --- IMPORTANTE ---
+    // 5. JPA requiere un constructor vacío (sin argumentos)
     public Articulo() {
     }
+    // ------------------
 
-// class Articulo {
-//    private String codigo;
-//    private String descripcion;
-//    private double precioVenta;
-//    private double gastosEnvio;
-//    private int tiempoPreparacion;//
-
-    //constructor
+    // Constructor original
     public Articulo(String codigo, String descripcion, double precioVenta, double gastosEnvio, int tiempoPreparacion){
         this.codigo = codigo;
         this.descripcion = descripcion;
@@ -42,7 +38,7 @@ public class Articulo {
         this.tiempoPreparacion = tiempoPreparacion;
     }
 
-    //getters y setters
+    //getters y setters (sin cambios)
 
     public String getCodigo() {
         return codigo;
@@ -84,7 +80,7 @@ public class Articulo {
         this.tiempoPreparacion = tiempoPreparacion;
     }
 
-    //toString
+    //toString (sin cambios)
 
     @Override
     public String toString() {

@@ -40,7 +40,7 @@ public class JPAUtil {
     /**
      * metodo para cerrar la fábrica al cerrar la aplicación
      */
-    public static void shotdown(){
+    public static void shutdown(){
         if (factory != null){
             factory.close();
         }
