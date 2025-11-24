@@ -5,6 +5,7 @@ import com.tiendaonline.dao.interfaces.ArticuloDAO;
 import com.tiendaonline.dao.interfaces.ClienteDAO;
 import com.tiendaonline.dao.interfaces.PedidoDAO;
 import com.tiendaonline.dao.jpa.ArticuloDAOJpaImpl;
+import com.tiendaonline.dao.jpa.ClienteDAOJpaImpl;
 import com.tiendaonline.dao.jpa.PedidoDAOJpaImpl;
 import com.tiendaonline.util.JPAUtil;
 import jakarta.persistence.EntityManager;
@@ -21,12 +22,13 @@ public class JpaDAOFactory implements  DAOFactory {
     }
 
     /**
-     * @return se pasa em el entity Manager
+     * @return una instancia de tu nuevo DAO inyectándole el EntityManager
      */
     @Override
     public ClienteDAO getClienteDAO() {
         EntityManager em = JPAUtil.getEntityManager();
-        return new ClienteDAOImpl(em);
+        // Usamos ClienteDAOJpaImpl (no ClienteDAOImpl, que era la vieja)
+        return new ClienteDAOJpaImpl(em);
     }
 
     /**
