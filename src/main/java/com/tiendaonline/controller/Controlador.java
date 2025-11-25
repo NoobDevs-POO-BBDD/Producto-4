@@ -38,10 +38,12 @@ public class Controlador {
         try {
             modelo.anadirCliente(email, nombre, domicilio, nif,premium);
             vistaCliente.clienteAnadido();
-        } catch (IllegalArgumentException | SQLException e) {
+        } catch (IllegalArgumentException e) {
+            // CAMBIO: Quitamos SQLException porque tu DAO JPA ya no la lanza.
             vistaUtil.mostrarError(e.getMessage());
         } catch (Exception e) {
-            vistaUtil.mostrarError("Error inseperado: "+ e.getMessage());
+            // CAMBIO: Corrección ortográfica 'inesperado'
+            vistaUtil.mostrarError("Error inesperado: "+ e.getMessage());
         }
     }
 
