@@ -81,7 +81,7 @@ void testConstructorYGetters() {
         Pedido pedido = new Pedido("P001", cliente, articulo, 3, fecha, true);
         double precioTotal = pedido.getPrecioTotal();
 
-        String esperado = "Pedidos{" +
+        String esperado = "Pedido{" +
                 "numeroPedido='P001'" +
                 ", cliente=" + cliente +
                 ", articulo=" + articulo +

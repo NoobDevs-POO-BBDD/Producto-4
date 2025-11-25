@@ -2,7 +2,6 @@ package com.tiendaonline.model;
 
 import com.tiendaonline.dao.factory.DAOFactory;
 import com.tiendaonline.dao.factory.JpaDAOFactory;
-import com.tiendaonline.dao.factory.MySqlDAOFactory;
 import com.tiendaonline.dao.interfaces.ArticuloDAO;
 import com.tiendaonline.dao.interfaces.ClienteDAO;
 import com.tiendaonline.dao.interfaces.PedidoDAO;
@@ -121,8 +120,7 @@ public class TiendaOnline {
     }
 
     public List<Pedido> mostrarPedidosPendientes(String emailCliente) throws Exception {
-        return pedidoDAO.getPedidosPendientesPorCliente(emailCliente)
-                .stream().filter(p -> !p.isEstado()).toList();
+        return pedidoDAO.getPedidosPendientesPorCliente(emailCliente);
     }
 
     public List<Pedido> mostrarPedidosEnviados() throws Exception {
@@ -130,8 +128,7 @@ public class TiendaOnline {
     }
 
     public List<Pedido> mostrarPedidosEnviados(String emailCliente) throws Exception {
-        return pedidoDAO.getPedidosEnviadosPorCliente(emailCliente)
-                .stream().filter(Pedido::isEstado).toList();
+        return pedidoDAO.getPedidosEnviadosPorCliente(emailCliente);
     }
 
     public Pedido buscarPedido(String numeroPedido) throws Exception {

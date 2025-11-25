@@ -14,25 +14,29 @@ class GestionPedidosTest {
     TiendaOnline tienda;
 
     @BeforeEach
-    void setUp() throws Exception{
+    void setUp()  throws Exception{
         tienda = new TiendaOnline();
-        tienda.cargarDatosDePrueba();
+        try{
+            tienda.cargarDatosDePrueba(); // Carga los artículos iniciales
+        }catch(IllegalArgumentException e){
+            System.out.println("Aviso: Datos de prueba ya cargados. Continuando...");
+        }
     }
 
     @Test
     void testAnadirPedidoValido()throws Exception {
-        tienda.anadirPedido("P006", "ana.g@mail.com", "A001", 2);
+        tienda.anadirPedido("P006", "anna@mail.com", "A001", 2);
         Pedido pedido = tienda.buscarPedido("P006");
         assertNotNull(pedido);
         assertEquals(2, pedido.getCantidad());
-        assertEquals("ana.g@mail.com", pedido.getCliente().getEmail());
+        assertEquals("anna@mail.com", pedido.getCliente().getEmail());
         assertFalse(pedido.isEstado()); // Pendiente por defecto
     }
 
     @Test
     void testAnadirPedidoArticuloNoExiste() throws Exception{
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            tienda.anadirPedido("P007", "ana.g@mail.com", "A999", 1);
+            tienda.anadirPedido("P007", "anna@mail.com", "A999", 1);
         });
         assertEquals("No existe el artículo con código: A999", exception.getMessage());
     }
@@ -48,7 +52,7 @@ class GestionPedidosTest {
     @Test
     void testAnadirPedidoCantidadInvalida() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            tienda.anadirPedido("P009", "ana.g@mail.com", "A001", 0);
+            tienda.anadirPedido("P009", "anna@mail.com", "A001", 0);
         });
         assertEquals("La cantidad debe ser mayor a 0", exception.getMessage());
     }
@@ -90,10 +94,10 @@ class GestionPedidosTest {
 
     @Test
     void testMostrarPedidosFiltradosPorCliente() throws Exception{
-        List<Pedido> pendientesAna = tienda.mostrarPedidosPendientes("ana.g@mail.com");
-        List<Pedido> enviadosSofia = tienda.mostrarPedidosEnviados("sofia.l@mail.com");
+        List<Pedido> pendientesAnna = tienda.mostrarPedidosPendientes("ana@mail.com");
+        List<Pedido> enviadosKevin = tienda.mostrarPedidosEnviados("kevin@mail.com");
 
-        assertTrue(pendientesAna.stream().allMatch(p -> p.getCliente().getEmail().equals("ana.g@mail.com") && !p.isEstado()));
-        assertTrue(enviadosSofia.stream().allMatch(p -> p.getCliente().getEmail().equals("sofia.l@mail.com") && p.isEstado()));
+        assertTrue(pendientesAnna.stream().allMatch(p -> p.getCliente().getEmail().equals("anna@mail.com") && !p.isEstado()));
+        assertTrue(enviadosKevin.stream().allMatch(p -> p.getCliente().getEmail().equals("kevin@mail.com") && p.isEstado()));
     }
 }

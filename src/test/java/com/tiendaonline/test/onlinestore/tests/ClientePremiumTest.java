@@ -3,7 +3,7 @@ package com.tiendaonline.test.onlinestore.tests;
 import org.junit.jupiter.api.Test;
 import com.tiendaonline.model.ClientePremium;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ClientePremiumTest {
@@ -46,8 +46,8 @@ public class ClientePremiumTest {
     void testClientePremiumToString() {
         ClientePremium cliente = new ClientePremium("juan@mail.com", "Juan", "Barcelona, 123", "33333333C", 20.0, 30);
 
-        String esperado = "Cliente{email='juan@mail.com', nombre='Juan', domicilio='Barcelona, 123', NIF='33333333C'}" +
-                "ClientePremium{descuentoEnvio=20.0, cuotaAnual=30}";
+        String esperado = "Cliente{id=0, email='juan@mail.com', nombre='Juan', domicilio='Barcelona, 123', NIF='33333333C'}" +
+                " ClientePremium{descuentoEnvio=20.0, cuotaAnual=30}";
         assertEquals(esperado, cliente.toString());
     }
 }

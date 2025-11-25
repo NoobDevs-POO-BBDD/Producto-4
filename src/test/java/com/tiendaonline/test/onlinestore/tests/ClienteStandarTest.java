@@ -40,7 +40,7 @@ public class ClienteStandarTest {
     void testClienteStandarToString(){
         ClienteStandar cliente = new ClienteStandar("ana@mail.com", "Ana", "Barcelona, 123", "11111111A", 0.0);
 
-        String esperado = "Cliente{email='ana@mail.com', nombre='Ana', domicilio='Barcelona, 123', NIF='11111111A'}";
+        String esperado = "Cliente{id=0, email='ana@mail.com', nombre='Ana', domicilio='Barcelona, 123', NIF='11111111A'} (Tipo: Estandar)";
         assertEquals(esperado, cliente.toString());
 
     }

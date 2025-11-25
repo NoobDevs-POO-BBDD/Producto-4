@@ -95,11 +95,23 @@ public class PedidoDAOJpaImpl implements PedidoDAO {
     public boolean eliminarPedido(String numeroPedido) {
     try {
         em.getTransaction().begin();
+
         Pedido pedido = em.createQuery("SELECT p FROM Pedido p WHERE p.numeroPedido = :numero", Pedido.class)
                 .setParameter("numero", numeroPedido)
                 .getSingleResult();
+
+        if (pedido.isEstado()) {
+            throw new IllegalStateException("No se puede eliminar el pedido " + numeroPedido + " porque ya ha sido ENVIADO.");
+        }
+
+        long minutosPasados = java.time.Duration.between(pedido.getFechaHora(), java.time.LocalDateTime.now()).toMinutes();
+        int tiempoPreparacion = pedido.getArticulo().getTiempoPreparacion();
+        if (minutosPasados > tiempoPreparacion) {
+            throw new IllegalStateException("No se puede eliminar: Ha superado el tiempo de preparación (" + tiempoPreparacion + " min).");
+        }
+
         em.remove(pedido);
-        em.getTransaction().commit();
+        em.getTransaction().commit(); // Confirmamos cambios
         return true;
     }catch (jakarta.persistence.NoResultException e) {
         if (em.getTransaction().isActive()) {

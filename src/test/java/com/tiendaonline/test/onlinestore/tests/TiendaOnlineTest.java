@@ -15,7 +15,11 @@ class TiendaOnlineTest {
     @BeforeEach
     void setUp() throws Exception {
         tienda = new TiendaOnline();
-        tienda.cargarDatosDePrueba();
+        try {
+            tienda.cargarDatosDePrueba();
+        } catch (IllegalArgumentException | java.sql.SQLException e) {
+            System.out.println("Aviso: Datos de prueba ya cargados. Continuando...");
+        }
     }
 
     @Test

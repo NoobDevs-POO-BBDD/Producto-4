@@ -19,13 +19,27 @@ public class ArticuloDAOJpaImpl implements ArticuloDAO {
     @Override
     public void anadirArticulo(Articulo articulo) throws Exception {
         // ¡SIN GESTIÓN DE TRANSACCIÓN NI EM.CLOSE()!
-        em.persist(articulo);
+        try {
+            em.getTransaction().begin();
+            em.persist(articulo);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw e;
+        }
     }
 
     @Override
     public Articulo getArticuloPorCodigo(String codigo) throws Exception {
         // ¡SIN GESTIÓN DE EM.CLOSE()!
-        return em.find(Articulo.class, codigo);
+        try{
+            String query = "SELECT a FROM Articulo a WHERE a.codigo = :codigo";
+            return em.createQuery(query, Articulo.class).setParameter("codigo", codigo).getSingleResult();
+        }catch (Exception e){
+            return null;
+        }
     }
 
     @Override

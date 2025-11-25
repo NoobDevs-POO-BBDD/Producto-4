@@ -1,6 +1,6 @@
 package com.tiendaonline.dao.factory;
 
-import com.tiendaonline.dao.impl.ClienteDAOImpl;
+
 import com.tiendaonline.dao.interfaces.ArticuloDAO;
 import com.tiendaonline.dao.interfaces.ClienteDAO;
 import com.tiendaonline.dao.interfaces.PedidoDAO;

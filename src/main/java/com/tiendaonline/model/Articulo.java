@@ -6,8 +6,13 @@ import jakarta.persistence.*; // Importamos JAKARTA
 @Table(name = "articulos") // 2. Mapea la clase a la tabla "articulos"
 public class Articulo {
 
+
     @Id // 3. Marca 'codigo' como la Clave Primaria
-    @Column(name = "codigo")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_articulo")
+    private int id;
+
+    @Column(name = "codigo", unique = true)
     private String codigo;
 
     @Column(name = "descripcion")
@@ -39,6 +44,15 @@ public class Articulo {
     }
 
     //getters y setters (sin cambios)
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 
     public String getCodigo() {
         return codigo;
