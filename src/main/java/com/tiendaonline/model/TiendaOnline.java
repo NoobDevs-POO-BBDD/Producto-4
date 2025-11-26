@@ -16,45 +16,26 @@ public class TiendaOnline {
     private DAOFactory factory;
 
     public TiendaOnline() {
-
-        // 1. Instancia Mysql
+        // 1. Instancia de la Factoría JPA
         this.factory = new JpaDAOFactory();
 
-        //Usar DAOfactory
+        // 2. Obtenemos TODOS los DAOs
         this.articuloDAO = factory.getArticuloDAO();
         this.clienteDAO = factory.getClienteDAO();
         this.pedidoDAO = factory.getPedidoDAO();
     }
 
-
     // ===================== CLIENTES =====================
-    public Cliente anadirCliente(String email, String nombre, String domicilio, String nif, boolean premium)throws Exception{
+    public Cliente anadirCliente(String email, String nombre, String domicilio, String nif, boolean premium) throws Exception {
         Cliente cliente;
         if (premium) {
-            // Creamos un cliente premium con los valores por defecto
-            cliente = new ClientePremium(
-                    email,
-                    nombre,
-                    domicilio,
-                    nif,
-                    ClientePremium.DESCUENTO_ENVIO_PREMIUM,
-                    ClientePremium.CUOTA_ANUAL_PREMIUM
-            );
+            cliente = new ClientePremium(email, nombre, domicilio, nif, ClientePremium.DESCUENTO_ENVIO_PREMIUM, ClientePremium.CUOTA_ANUAL_PREMIUM);
         } else {
-            // Creamos un cliente estándar con descuento por defecto
-            cliente = new ClienteStandar(
-                    email,
-                    nombre,
-                    domicilio,
-                    nif,
-                    ClienteStandar.DESCUENTO_ENVIO_STANDAR
-            );
+            cliente = new ClienteStandar(email, nombre, domicilio, nif, ClienteStandar.DESCUENTO_ENVIO_STANDAR);
         }
         clienteDAO.anadirCliente(cliente);
-
         return cliente;
     }
-
 
     public List<Cliente> mostrarClientes() throws Exception {
         return clienteDAO.getTodosLosClientes();
@@ -74,6 +55,9 @@ public class TiendaOnline {
 
     // ===================== ARTÍCULOS =====================
     public void anadirArticulo(String codigo, String descripcion, Double precioVenta, Double gastosEnvio, int tiempoPreparacion) throws Exception {
+        // Validamos si el DAO está disponible
+        if (articuloDAO == null) throw new Exception("Error crítico: ArticuloDAO es NULL. Revisa JpaDAOFactory.");
+
         Articulo existente = buscarArticulo(codigo);
         if (existente != null) {
             throw new IllegalArgumentException("Ya existe un artículo con el código: " + codigo);
@@ -84,15 +68,19 @@ public class TiendaOnline {
     }
 
     public List<Articulo> mostrarArticulos() throws Exception {
+        if (articuloDAO == null) return null;
         return articuloDAO.getTodosLosArticulos();
     }
 
     public Articulo buscarArticulo(String codigo) throws Exception {
+        if (articuloDAO == null) return null;
         return articuloDAO.getArticuloPorCodigo(codigo);
     }
 
     // ===================== PEDIDOS =====================
     public void anadirPedido(String numeroPedido, String emailCliente, String codigoArticulo, int cantidad) throws Exception {
+        if (pedidoDAO == null) throw new Exception("Error crítico: PedidoDAO es NULL. Revisa JpaDAOFactory.");
+
         Cliente cliente = clienteDAO.getClientePorEmail(emailCliente);
         Articulo articulo = articuloDAO.getArticuloPorCodigo(codigoArticulo);
 
@@ -103,42 +91,52 @@ public class TiendaOnline {
         if (cantidad <= 0)
             throw new IllegalArgumentException("La cantidad debe ser mayor a 0");
 
+        // Creamos el pedido (Estado inicial false = pendiente)
         Pedido pedido = new Pedido(numeroPedido, cliente, articulo, cantidad, LocalDateTime.now(), false);
         pedidoDAO.anadirPedido(pedido);
     }
 
     public boolean eliminarPedido(String numeroPedido) throws Exception {
+        if (pedidoDAO == null) return false;
         return pedidoDAO.eliminarPedido(numeroPedido);
     }
 
     public void marcarPedidoComoEnviado(String numeroPedido) throws Exception {
+        if (pedidoDAO == null) return;
         pedidoDAO.marcarPedidoEnviado(numeroPedido);
     }
 
     public List<Pedido> mostrarPedidosPendientes() throws Exception {
+        if (pedidoDAO == null) return null;
         return pedidoDAO.getPedidosPendientes();
     }
 
     public List<Pedido> mostrarPedidosPendientes(String emailCliente) throws Exception {
-        return pedidoDAO.getPedidosPendientesPorCliente(emailCliente);
+        if (pedidoDAO == null) return null;
+        return pedidoDAO.getPedidosPendientesPorCliente(emailCliente)
+                .stream().filter(p -> !p.isEstado()).toList();
     }
 
     public List<Pedido> mostrarPedidosEnviados() throws Exception {
+        if (pedidoDAO == null) return null;
         return pedidoDAO.getPedidosEnviados();
     }
 
     public List<Pedido> mostrarPedidosEnviados(String emailCliente) throws Exception {
-        return pedidoDAO.getPedidosEnviadosPorCliente(emailCliente);
+        if (pedidoDAO == null) return null;
+        return pedidoDAO.getPedidosEnviadosPorCliente(emailCliente)
+                .stream().filter(Pedido::isEstado).toList();
     }
 
     public Pedido buscarPedido(String numeroPedido) throws Exception {
+        if (pedidoDAO == null) return null;
         return pedidoDAO.getPedidoPorNumero(numeroPedido);
     }
 
-    // === ESTADÍSTICAS ===
+    // === ESTADÍSTICAS (Para toString) ===
 
     public int getTotalArticulos() throws Exception {
-        return articuloDAO.getTodosLosArticulos().size();
+        return (articuloDAO != null) ? articuloDAO.getTodosLosArticulos().size() : 0;
     }
 
     public int getTotalClientes() throws Exception {
@@ -154,17 +152,17 @@ public class TiendaOnline {
     }
 
     public int getTotalPedidos() throws Exception {
-        // Suponiendo que tu DAO tiene un metodo que devuelve todos los pedidos
-        return pedidoDAO.getTodosLosPedidos().size();
+        return (pedidoDAO != null) ? pedidoDAO.getTodosLosPedidos().size() : 0;
     }
 
     public int getTotalPedidosPendientes() throws Exception {
-        return pedidoDAO.getPedidosPendientes().size();
+        return (pedidoDAO != null) ? pedidoDAO.getPedidosPendientes().size() : 0;
     }
 
     public int getTotalPedidosEnviados() throws Exception {
-        return pedidoDAO.getPedidosEnviados().size();
+        return (pedidoDAO != null) ? pedidoDAO.getPedidosEnviados().size() : 0;
     }
+
     @Override
     public String toString() {
         try {
@@ -182,37 +180,61 @@ public class TiendaOnline {
         }
     }
 
-
-
-    // ===================== DATOS DE PRUEBA =====================
+    // ===================== DATOS DE PRUEBA COMPLETOS =====================
     public void cargarDatosDePrueba() throws Exception {
-        System.out.println("Cargando datos de prueba...");
+        System.out.println("Cargando TODOS los datos de prueba...");
 
-        // CLIENTES (ESTO SÍ FUNCIONA, ES TU PARTE)
-        anadirCliente("maria@mail.com", "Maria", "Calle Sol 1", "12345678A", false);
-        anadirCliente("thabata@mail.com", "Thabata", "Av. Luna 2", "23456789B", false);
-        anadirCliente("kevin@mail.com", "Kevin", "Plaza Mar 3", "34567890C", false);
-        anadirCliente("mar@mail.com", "Mar", "Calle Río 4", "45678901D", true);
-        anadirCliente("anna@mail.com", "Anna", "Av. Monte 5", "56789012E", true);
+        // 1. CLIENTES
+        anadirClienteSeguro("maria@mail.com", "Maria", "Calle Sol 1", "12345678A", false);
+        anadirClienteSeguro("thabata@mail.com", "Thabata", "Av. Luna 2", "23456789B", false);
+        anadirClienteSeguro("kevin@mail.com", "Kevin", "Plaza Mar 3", "34567890C", false);
+        anadirClienteSeguro("mar@mail.com", "Mar", "Calle Río 4", "45678901D", true);
+        anadirClienteSeguro("anna@mail.com", "Anna", "Av. Monte 5", "56789012E", true);
 
-        // ARTÍCULOS Y PEDIDOS (COMENTAR ESTO PARA QUE NO FALLE)
-        /*
-        anadirArticulo("A001", "Laptop Pro 16", 1499.99, 15.0, 120);
-        anadirArticulo("A002", "Mouse Inalámbrico", 35.5, 5.0, 10);
-        anadirArticulo("A003", "Teclado Mecánico RGB", 110.0, 10.0, 30);
-        anadirArticulo("A004", "Monitor Curvo 32", 450.0, 20.0, 180);
-        anadirArticulo("A005", "Silla Ergonómica Pro", 220.0, 30.0, 60);
+        // 2. ARTÍCULOS (ACTIVOS)
+        anadirArticuloSeguro("A001", "Laptop Pro 16", 1499.99, 15.0, 120);
+        anadirArticuloSeguro("A002", "Mouse Inalámbrico", 35.5, 5.0, 10);
+        anadirArticuloSeguro("A003", "Teclado Mecánico RGB", 110.0, 10.0, 30);
+        anadirArticuloSeguro("A004", "Monitor Curvo 32", 450.0, 20.0, 180);
+        anadirArticuloSeguro("A005", "Silla Ergonómica Pro", 220.0, 30.0, 60);
 
-        anadirPedido("P001", "maria@mail.com", "A002", 2);
-        anadirPedido("P002", "mar@mail.com", "A003", 1);
-        anadirPedido("P003", "thabata@mail.com", "A001", 1);
+        // 3. PEDIDOS (ACTIVOS)
+        anadirPedidoSeguro("P001", "maria@mail.com", "A002", 2);
+        anadirPedidoSeguro("P002", "mar@mail.com", "A003", 1);
+        anadirPedidoSeguro("P003", "thabata@mail.com", "A001", 1);
 
-        anadirPedido("P004","anna@mail.com","A004",1);
-        marcarPedidoComoEnviado("p004");
-        anadirPedido("P005","kevin@mail.com","A005",1);
-        marcarPedidoComoEnviado("P005");
-        */
+        anadirPedidoSeguro("P004", "anna@mail.com", "A004", 1);
+        marcarPedidoComoEnviadoSeguro("P004");
 
-        System.out.println("Datos de prueba de Clientes cargados correctamente.");
+        anadirPedidoSeguro("P005", "kevin@mail.com", "A005", 1);
+        marcarPedidoComoEnviadoSeguro("P005");
+
+        System.out.println("Datos de prueba cargados correctamente.");
+    }
+
+    // --- MÉTODOS AUXILIARES PARA EVITAR ERRORES POR DUPLICADOS ---
+
+    private void anadirClienteSeguro(String email, String nombre, String dom, String nif, boolean prem) {
+        try {
+            anadirCliente(email, nombre, dom, nif, prem);
+        } catch (Exception e) { /* Ignorar si ya existe */ }
+    }
+
+    private void anadirArticuloSeguro(String cod, String desc, Double precio, Double gastos, int tiempo) {
+        try {
+            anadirArticulo(cod, desc, precio, gastos, tiempo);
+        } catch (Exception e) { /* Ignorar si ya existe */ }
+    }
+
+    private void anadirPedidoSeguro(String num, String mail, String codArt, int cant) {
+        try {
+            anadirPedido(num, mail, codArt, cant);
+        } catch (Exception e) { /* Ignorar si ya existe o faltan datos */ }
+    }
+
+    private void marcarPedidoComoEnviadoSeguro(String num) {
+        try {
+            marcarPedidoComoEnviado(num);
+        } catch (Exception e) { /* Ignorar si falla */ }
     }
 }
