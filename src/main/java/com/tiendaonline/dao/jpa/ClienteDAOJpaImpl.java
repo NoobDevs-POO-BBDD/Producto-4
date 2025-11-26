@@ -1,14 +1,6 @@
 package com.tiendaonline.dao.jpa;
 
 import com.tiendaonline.dao.interfaces.ClienteDAO;
-<<<<<<< HEAD
-import jakarta.persistence.EntityManager;
-
-public class ClienteDAOJpaImpl implements ClienteDAO {
-    public ClienteDAOJpaImpl(EntityManager em) {
-    }
-}
-=======
 import com.tiendaonline.model.Cliente;
 import com.tiendaonline.model.ClientePremium;
 import com.tiendaonline.model.ClienteStandar;
@@ -77,4 +69,3 @@ public class ClienteDAOJpaImpl implements ClienteDAO {
         }
     }
 }
->>>>>>> 27bfa1a10bc466edba1da5cd24d00e07c0221f02

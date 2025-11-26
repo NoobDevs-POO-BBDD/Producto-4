@@ -188,31 +188,31 @@ public class TiendaOnline {
     public void cargarDatosDePrueba() throws Exception {
         System.out.println("Cargando datos de prueba...");
 
-        // Artículos
-        anadirArticulo("A001", "Laptop Pro 16", 1499.99, 15.0, 120);
-        anadirArticulo("A002", "Mouse Inalámbrico", 35.5, 5.0, 10);
-        anadirArticulo("A003", "Teclado Mecánico RGB", 110.0, 10.0, 30);
-        anadirArticulo("A004", "Monitor Curvo 32", 450.0, 20.0, 180);
-        anadirArticulo("A005", "Silla Ergonómica Pro", 220.0, 30.0, 60);
-
-        // Clientes
+        // CLIENTES (ESTO SÍ FUNCIONA, ES TU PARTE)
         anadirCliente("maria@mail.com", "Maria", "Calle Sol 1", "12345678A", false);
         anadirCliente("thabata@mail.com", "Thabata", "Av. Luna 2", "23456789B", false);
         anadirCliente("kevin@mail.com", "Kevin", "Plaza Mar 3", "34567890C", false);
         anadirCliente("mar@mail.com", "Mar", "Calle Río 4", "45678901D", true);
         anadirCliente("anna@mail.com", "Anna", "Av. Monte 5", "56789012E", true);
 
-        // Pedidos
+        // ARTÍCULOS Y PEDIDOS (COMENTAR ESTO PARA QUE NO FALLE)
+        /*
+        anadirArticulo("A001", "Laptop Pro 16", 1499.99, 15.0, 120);
+        anadirArticulo("A002", "Mouse Inalámbrico", 35.5, 5.0, 10);
+        anadirArticulo("A003", "Teclado Mecánico RGB", 110.0, 10.0, 30);
+        anadirArticulo("A004", "Monitor Curvo 32", 450.0, 20.0, 180);
+        anadirArticulo("A005", "Silla Ergonómica Pro", 220.0, 30.0, 60);
+
         anadirPedido("P001", "maria@mail.com", "A002", 2);
         anadirPedido("P002", "mar@mail.com", "A003", 1);
         anadirPedido("P003", "thabata@mail.com", "A001", 1);
 
-        // Pedidos enviados (creamos con DAO directamente para simular estado enviado)
         anadirPedido("P004","anna@mail.com","A004",1);
         marcarPedidoComoEnviado("p004");
         anadirPedido("P005","kevin@mail.com","A005",1);
         marcarPedidoComoEnviado("P005");
+        */
 
-        System.out.println("Datos de prueba cargados correctamente.");
+        System.out.println("Datos de prueba de Clientes cargados correctamente.");
     }
 }
