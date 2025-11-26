@@ -1,21 +1,9 @@
-package com.tiendaonline.test.onlinestore.tests; // Asegúrate de que el paquete sea correcto según tu carpeta
-
-// --- CAMBIOS AQUÍ: Usamos los imports de JUnit 5 (Jupiter) ---
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-<<<<<<< HEAD
-import com.tiendaonline.model.Articulo;
-
-=======
+package com.tiendaonline.test.onlinestore.tests;
 
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.tiendaonline.model.Articulo;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-//import static org.junit.jupiter.api.Assertions.*;
-
->>>>>>> 27bfa1a10bc466edba1da5cd24d00e07c0221f02
 public class ArticuloTest {
 
     @Test
@@ -25,7 +13,7 @@ public class ArticuloTest {
         assertEquals("A001", articulo.getCodigo());
         assertEquals("Libro", articulo.getDescripcion());
 
-        // En JUnit 5, assertEquals para doubles también admite un "delta" (margen de error)
+        // En JUnit 5, assertEquals para doubles admite un "delta" (margen de error)
         assertEquals(25.0, articulo.getPrecioVenta(), 0.001);
         assertEquals(5.0, articulo.getGastosEnvio(), 0.001);
 
