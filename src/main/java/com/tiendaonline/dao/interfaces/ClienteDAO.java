@@ -5,18 +5,13 @@ import java.util.List;
 
 public interface ClienteDAO {
 
-    // Obtener un cliente por su email
-    Cliente getClientePorEmail(String email) throws Exception;
+    Cliente getClientePorEmail(String email);
 
-    // Obtener todos los clientes
-    List<Cliente> getTodosLosClientes() throws Exception;
+    List<Cliente> getTodosLosClientes();
 
-    // Obtener solo clientes estándar
-    List<Cliente> getClientesEstandar() throws Exception;
+    List<Cliente> getClientesEstandar();
 
-    // Obtener solo clientes premium
-    List<Cliente> getClientesPremium() throws Exception;
+    List<Cliente> getClientesPremium();
 
-    // Agregar un nuevo cliente
-    void anadirCliente(Cliente cliente) throws Exception;
+    void anadirCliente(Cliente cliente);
 }

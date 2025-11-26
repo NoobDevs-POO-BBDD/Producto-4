@@ -4,8 +4,18 @@ package com.tiendaonline.test.onlinestore.tests; // Asegúrate de que el paquete
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+<<<<<<< HEAD
 import com.tiendaonline.model.Articulo;
 
+=======
+
+import org.junit.jupiter.api.Test;
+import com.tiendaonline.model.Articulo;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+//import static org.junit.jupiter.api.Assertions.*;
+
+>>>>>>> 27bfa1a10bc466edba1da5cd24d00e07c0221f02
 public class ArticuloTest {
 
     @Test

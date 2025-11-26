@@ -7,7 +7,6 @@ import com.tiendaonline.model.Pedido;
 import com.tiendaonline.model.TiendaOnline;
 import com.tiendaonline.view.*;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class Controlador {
@@ -38,10 +37,12 @@ public class Controlador {
         try {
             modelo.anadirCliente(email, nombre, domicilio, nif,premium);
             vistaCliente.clienteAnadido();
-        } catch (IllegalArgumentException | SQLException e) {
+        } catch (IllegalArgumentException e) {
+            // CAMBIO: Quitamos SQLException porque tu DAO JPA ya no la lanza.
             vistaUtil.mostrarError(e.getMessage());
         } catch (Exception e) {
-            vistaUtil.mostrarError("Error inseperado: "+ e.getMessage());
+            // CAMBIO: Corrección ortográfica 'inesperado'
+            vistaUtil.mostrarError("Error inesperado: "+ e.getMessage());
         }
     }
 
@@ -79,8 +80,6 @@ public class Controlador {
         try {
             modelo.anadirArticulo(codigo,descripcion,precioVenta,gastosEnvio,tiempoPreparacion);
             vistaArticulo.articuloAnadido();
-        } catch (SQLException e){
-            vistaUtil.mostrarError(e.getMessage());
         }catch (Exception e) {
             vistaUtil.mostrarError("Error inseperado: "+ e.getMessage());
         }
@@ -125,8 +124,6 @@ public class Controlador {
             }else{
                 vistaUtil.mostrarError(e.getMessage());
             }
-        } catch (SQLException e){
-            vistaUtil.mostrarError(e.getMessage());
         }catch (Exception e) {
             vistaUtil.mostrarError("Error inseperado: "+ e.getMessage());
         }
@@ -143,8 +140,6 @@ public class Controlador {
                 String message = "No se pudo eliminar el pedido " + numeroPedidoBorrar + ". Es posible que ya esté enviado o se ha eliminado con anterioridad.";
                 vistaUtil.mostrarError(message);
             }
-        } catch (SQLException e){
-            vistaUtil.mostrarError(e.getMessage());
         }catch (Exception e) {
             vistaUtil.mostrarError("Error inseperado: "+ e.getMessage());
         }

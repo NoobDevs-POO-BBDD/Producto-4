@@ -1,5 +1,5 @@
 package com.tiendaonline;
-
+import com.tiendaonline.dao.factory.JpaDAOFactory;
 import com.tiendaonline.model.TiendaOnline;
 import com.tiendaonline.view.Vista;
 import com.tiendaonline.controller.Controlador;
